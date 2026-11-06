@@ -1,0 +1,16 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+
+# Backend runtime
+backend/data/
+backend/*.db
+backend/server
+backend/server.exe
+
+# Node / Next / Electron
+node_modules/
+.next/
+out/
+dist/

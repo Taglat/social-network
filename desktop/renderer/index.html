@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Social Network Messenger</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Offline banner (shown when the connection drops) -->
+    <div id="offline-banner" class="offline-banner hidden">
+      ⚠️ You are offline. You can read messages but cannot send or receive new
+      ones until the connection is restored.
+    </div>
+
+    <!-- LOGIN VIEW -->
+    <div id="login-view" class="center">
+      <div class="login-card">
+        <h1>Messenger</h1>
+        <p class="muted">Sign in with your social network account.</p>
+        <div class="field">
+          <label>Backend server</label>
+          <input id="api-base" type="text" value="http://localhost:8080" />
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input id="email" type="email" placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input id="password" type="password" />
+        </div>
+        <div id="login-error" class="error"></div>
+        <button id="login-btn">Log in</button>
+        <p class="muted register-line">
+          No account?
+          <a id="register-link" href="#">Register on the website</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- APP VIEW -->
+    <div id="app-view" class="app hidden">
+      <header class="topbar">
+        <div class="row">
+          <strong>Messenger</strong>
+          <span id="conn-status" class="status">●</span>
+        </div>
+        <div class="row">
+          <span id="me-name" class="muted"></span>
+          <button id="logout-btn" class="secondary small">Logout</button>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="contacts">
+          <div class="contacts-head">Contacts</div>
+          <div id="contacts-list"></div>
+        </aside>
+
+        <main class="conversation">
+          <div id="conv-header" class="conv-header">
+            <span id="conv-title">Select a contact</span>
+            <input
+              id="search"
+              class="search"
+              placeholder="Search messages… ( -exclude ~fuzzy >5 )"
+            />
+          </div>
+          <div id="messages" class="messages"></div>
+          <div class="composer">
+            <button id="emoji-btn" class="secondary" type="button">😊</button>
+            <div id="emoji-pop" class="emoji-pop hidden"></div>
+            <input id="msg-input" placeholder="Type a message…" />
+            <button id="send-btn">Send</button>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

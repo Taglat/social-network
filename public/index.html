@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Network | Кроссплатформенная соцсеть</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-hover: #334155;
+      --card-bg: rgba(30, 41, 59, 0.85);
+      --border: #334155;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --primary-glow: rgba(59, 130, 246, 0.25);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #10b981;
+      --purple: #8b5cf6;
+      --radius: 12px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: radial-gradient(circle at top right, #1e1b4b, #0f172a 60%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: #fff;
+      text-decoration: none;
+    }
+    .logo-badge {
+      background: linear-gradient(135deg, var(--primary), var(--purple));
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    .nav-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0.4rem 0.75rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover, .nav-btn.active {
+      color: #fff;
+      background: var(--surface-hover);
+    }
+    .nav-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+    .btn-outline {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover {
+      background: var(--surface-hover);
+    }
+
+    /* Hero */
+    .hero {
+      max-width: 1200px;
+      margin: 2.5rem auto 1.5rem;
+      padding: 0 1.5rem;
+      text-align: center;
+    }
+    .hero-tag {
+      display: inline-block;
+      padding: 0.25rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #60a5fa;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: 2.75rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff 40%, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 760px;
+      margin: 0 auto 1.75rem;
+    }
+    .stack-chips {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+    .chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .chip span { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .chip-go span { background: #00add8; }
+    .chip-react span { background: #61dafb; }
+    .chip-electron span { background: #47848f; }
+    .chip-sqlite span { background: #003b57; }
+    .chip-docker span { background: #2496ed; }
+
+    /* Layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    /* Tabs Content */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Grid for Feed Demo */
+    .feed-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr 300px;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 1024px) {
+      .feed-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+
+    /* Card styling */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.85rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Post Component */
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #fff;
+    }
+    .avatar.carol { background: linear-gradient(135deg, #ec4899, #f43f5e); }
+    .avatar.dave { background: linear-gradient(135deg, #10b981, #059669); }
+    .post-meta h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .post-meta span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-left: 0.4rem;
+    }
+    .badge-public { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+    .badge-private { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+    .badge-almost { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+
+    .post-content {
+      margin-bottom: 1rem;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+    }
+    .post-content h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+      color: #fff;
+    }
+    .post-image {
+      width: 100%;
+      height: 220px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin: 0.5rem 0;
+      border: 1px solid var(--border);
+      background: #1e293b;
+    }
+    .post-actions {
+      display: flex;
+      gap: 1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .action-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      font-family: inherit;
+      transition: color 0.2s;
+    }
+    .action-btn:hover, .action-btn.active { color: var(--primary); }
+
+    /* Post Create Box */
+    .create-box textarea {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      color: #fff;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 70px;
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+    }
+    .create-box textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .create-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .select-privacy {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      color: #cbd5e1;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+
+    /* Chat layout */
+    .chat-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 1.5rem;
+      height: 600px;
+    }
+    @media (max-width: 800px) {
+      .chat-layout { grid-template-columns: 1fr; height: auto; }
+    }
+    .chat-list {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow-y: auto;
+    }
+    .chat-item {
+      padding: 0.85rem 1rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.2s;
+    }
+    .chat-item:hover, .chat-item.active { background: var(--surface-hover); }
+    .chat-window {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chat-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(15, 23, 42, 0.5);
+    }
+    .messages-area {
+      flex: 1;
+      padding: 1.25rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .msg {
+      max-width: 75%;
+      padding: 0.65rem 0.95rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    .msg-in {
+      align-self: flex-start;
+      background: var(--surface);
+      color: #f1f5f9;
+      border-bottom-left-radius: 2px;
+    }
+    .msg-out {
+      align-self: flex-end;
+      background: var(--primary);
+      color: #fff;
+      border-bottom-right-radius: 2px;
+    }
+    .chat-input-bar {
+      padding: 0.85rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 0.6rem;
+      background: rgba(15, 23, 42, 0.5);
+    }
+    .chat-input-bar input {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 0.85rem;
+      color: #fff;
+      font-family: inherit;
+    }
+
+    /* Terminal & Code Blocks */
+    .terminal {
+      background: #090d16;
+      border: 1px solid #1e293b;
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      font-family: 'Consolas', 'Monaco', monospace;
+      color: #38bdf8;
+      font-size: 0.9rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+    }
+    .terminal-header {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 0.85rem;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ef4444; }
+    .dot-y { background: #f59e0b; }
+    .dot-g { background: #10b981; }
+    .cmd { color: #f8fafc; font-weight: 600; }
+    .comment { color: #64748b; }
+
+    /* Account table */
+    .acc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+    .acc-table th, .acc-table td {
+      border: 1px solid var(--border);
+      padding: 0.65rem 0.9rem;
+      text-align: left;
+    }
+    .acc-table th { background: var(--surface); color: #fff; }
+    .acc-table td { background: rgba(30, 41, 59, 0.4); }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      background: rgba(15, 23, 42, 0.6);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <span>🌐 Social Network</span>
+        <span class="logo-badge">Full-Stack</span>
+      </a>
+      <div class="nav-links">
+        <button class="nav-btn active" onclick="switchTab('feed')">Лента</button>
+        <button class="nav-btn" onclick="switchTab('chat')">Мессенджер & WebSocket</button>
+        <button class="nav-btn" onclick="switchTab('groups')">Группы & События</button>
+        <button class="nav-btn" onclick="switchTab('architecture')">Архитектура & Docker</button>
+      </div>
+      <div class="nav-actions">
+        <a href="https://github.com/Taglat/social-network" target="_blank" class="btn btn-outline">
+          <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+          GitHub
+        </a>
+        <button class="btn btn-primary" onclick="switchTab('architecture')">Запустить проект</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-tag">🚀 Кроссплатформенная веб & десктоп социальная сеть</div>
+    <h1>Социальная сеть на Go, Next.js и Electron</h1>
+    <p>
+      Полнофункциональная платформа в духе Facebook: посты, приватные профили, подписки, группы, события,
+      чат реального времени на WebSocket с эмодзи и кроссплатформенный клиент AppImage / Win / Mac.
+    </p>
+
+    <div class="stack-chips">
+      <div class="chip chip-go"><span></span> Go (REST API + WS)</div>
+      <div class="chip chip-react"><span></span> Next.js 14 (React)</div>
+      <div class="chip chip-electron"><span></span> Electron (Desktop)</div>
+      <div class="chip chip-sqlite"><span></span> SQLite + Migrations</div>
+      <div class="chip chip-docker"><span></span> Docker Compose</div>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <main class="container">
+
+    <!-- TAB 1: FEED DEMO -->
+    <div id="tab-feed" class="tab-content active">
+      <div class="feed-layout">
+
+        <!-- Left Sidebar: Profile info -->
+        <aside class="sidebar">
+          <div class="card">
+            <div class="card-title">👤 Мой профиль</div>
+            <div style="text-align: center; padding: 0.5rem 0 1rem;">
+              <div class="avatar" style="width: 64px; height: 64px; margin: 0 auto 0.75rem; font-size: 1.5rem;">B</div>
+              <h3 style="font-size: 1.1rem; color: #fff;">Bob Demo</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">bob@demo.local</p>
+              <span class="badge badge-public" style="margin-top: 0.5rem;">Публичный профиль</span>
+            </div>
+            <hr style="border: none; border-top: 1px solid var(--border); margin: 0.75rem 0;">
+            <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-around;">
+              <div><strong style="color: #fff;">14</strong> постов</div>
+              <div><strong style="color: #fff;">89</strong> подписчиков</div>
+              <div><strong style="color: #fff;">42</strong> подписки</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">👥 Запросы в друзья</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Нет новых запросов</div>
+          </div>
+        </aside>
+
+        <!-- Center: Feed & Create Post -->
+        <div class="feed-main">
+          <!-- Create Post Box -->
+          <div class="card create-box">
+            <div class="card-title">✏️ Что у вас нового?</div>
+            <textarea id="new-post-text" placeholder="Поделитесь своими мыслями, кодом или фото…"></textarea>
+            <div class="create-actions">
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <label style="font-size: 0.85rem; color: var(--text-muted);">Приватность:</label>
+                <select id="new-post-privacy" class="select-privacy">
+                  <option value="public">🌍 Публичный</option>
+                  <option value="almost_private">👥 Почти приватный (подписчики)</option>
+                  <option value="private">🔒 Приватный (выбранные)</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" onclick="createPost()">Опубликовать</button>
+            </div>
+          </div>
+
+          <!-- Post Stream -->
+          <div id="posts-container">
+
+            <!-- Post 1 -->
+            <div class="card">
+              <div class="post-header">
+                <div class="avatar">B</div>
+                <div class="post-meta">
+                  <h4>Bob Demo <span class="badge badge-public">Публичный</span></h4>
+                  <span>2 часа назад • Веб-версия</span>
+                </div>
+              </div>
+              <div class="post-content">
+                <h3>Запуск социальной сети на Docker! 🚀</h3>
+                <p>Привет всем! Наш проект полностью готов к проверке: бэкенд на Go с WebSocket, база SQLite с миграциями, фронтенд на Next.js 14 и десктопный клиент на Electron. Все тесты и аудит пройдены!</p>
+              </div>
+              <div class="post-actions">
+                <button class="action-btn active" onclick="toggleLike(this)">❤️ <span>12</span> Нравится</button>
+                <button class="action-btn" onclick="toggleComments('c1')">💬 3 Комментария</button>
+                <button class="action-btn">🔗 Поделиться</button>
+              </div>
+              <div id="c1" style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--border); font-size: 0.88rem;">
+                <div style="margin-bottom: 0.5rem;"><strong style="color: #60a5fa;">Carol Demo:</strong> Отличная работа! Чат летает без задержек.</div>
+                <div style="margin-bottom: 0.5rem;"><strong style="color: #34d399;">Dave Demo:</strong> Проверил сборку AppImage на Ubuntu — запускается моментально!</div>
+              </div>
+            </div>
+
+            <!-- Post 2 -->
+            <div class="card">
+              <div class="post-header">
+                <div class="avatar carol">C</div>
+                <div class="post-meta">
+                  <h4>Carol Demo <span class="badge badge-almost">Для подписчиков</span></h4>
+                  <span>5 часов назад • Desktop Client</span>
+                </div>
+              </div>
+              <div class="post-content">
+                <h3>Событие в группе разработчиков</h3>
+                <p>Создала событие «Релиз и аудит social-network» в группе Alem Alumni. Не забудьте поставить RSVP (пойду / не пойду)!</p>
+              </div>
+              <div class="post-actions">
+                <button class="action-btn" onclick="toggleLike(this)">❤️ <span>8</span> Нравится</button>
+                <button class="action-btn">💬 1 Комментарий</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right Sidebar: Shortcuts & Status -->
+        <aside class="sidebar">
+          <div class="card">
+            <div class="card-title">🟢 Онлайн (WebSocket)</div>
+            <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.9rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></span>
+                <span>Bob Demo (Вы)</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></span>
+                <span>Carol Demo</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></span>
+                <span>Dave Demo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">📅 Ближайшие события</div>
+            <div style="font-size: 0.85rem;">
+              <strong style="color: #fff;">Сдача проекта</strong>
+              <div style="color: var(--text-muted); margin-top: 0.2rem;">Сегодня, 22:00</div>
+              <button class="btn btn-outline" style="width: 100%; margin-top: 0.75rem; font-size: 0.8rem; padding: 0.35rem;">Иду ✅</button>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+
+    <!-- TAB 2: CHAT DEMO -->
+    <div id="tab-chat" class="tab-content">
+      <div class="card" style="margin-bottom: 1rem;">
+        <h3>💬 Интерактивный WebSocket Мессенджер</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          В реальном приложении обмен сообщениями осуществляется через WebSocket-хаб на Go (<code style="color: #60a5fa;">ws://localhost:8080/ws</code>)
+          с сохранением истории в SQLite и индикацией прочитанности.
+        </p>
+      </div>
+
+      <div class="chat-layout">
+        <div class="chat-list">
+          <div class="chat-item active" onclick="selectChat('Carol Demo', 'C', 'carol')">
+            <div class="avatar carol">C</div>
+            <div>
+              <div style="font-weight: 600; color: #fff;">Carol Demo</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">Ты протестировал эмодзи?</div>
+            </div>
+          </div>
+          <div class="chat-item" onclick="selectChat('Dave Demo', 'D', 'dave')">
+            <div class="avatar dave">D</div>
+            <div>
+              <div style="font-weight: 600; color: #fff;">Dave Demo</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">Docker образы собрались отлично</div>
+            </div>
+          </div>
+          <div class="chat-item" onclick="selectChat('Golang Devs (Группа)', '👥', '')">
+            <div class="avatar" style="background: #3b82f6;">👥</div>
+            <div>
+              <div style="font-weight: 600; color: #fff;">Golang Devs</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">3 участника в группе</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-window">
+          <div class="chat-header">
+            <div id="chat-header-avatar" class="avatar carol">C</div>
+            <div>
+              <div id="chat-header-name" style="font-weight: 700; color: #fff;">Carol Demo</div>
+              <div style="font-size: 0.75rem; color: #10b981;">● в сети (WebSocket активен)</div>
+            </div>
+          </div>
+
+          <div class="messages-area" id="chat-messages">
+            <div class="msg msg-in">Привет! Проверяю WebSocket соединение и десктопный клиент.</div>
+            <div class="msg msg-out">Привет! Всё работает отлично, сообщения доставляются мгновенно. 😎</div>
+            <div class="msg msg-in">Отлично, в чате поддерживаются все эмодзи и оповещения в реальном времени! 🔥</div>
+          </div>
+
+          <div class="chat-input-bar">
+            <input type="text" id="chat-input" placeholder="Напишите сообщение… (нажмите Enter для отправки)" onkeypress="if(event.key==='Enter') sendChatMessage()">
+            <button class="btn btn-primary" onclick="sendChatMessage()">Отправить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: GROUPS DEMO -->
+    <div id="tab-groups" class="tab-content">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+        <div class="card">
+          <div class="card-title">💻 Golang & React Developers</div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+            Группа для обсуждения архитектуры веб-сервисов, WebSocket, горутин в Go и клиентского роутинга Next.js.
+          </p>
+          <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 1rem;">
+            👥 42 участника • 12 постов • 3 события
+          </div>
+          <button class="btn btn-outline" style="width: 100%;">Вы состоите в группе (Член)</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">🎓 Alem Alumni Network</div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+            Сообщество выпускников и студентов для обмена опытом и подготовки к код-ревью и аудитам.
+          </p>
+          <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 1rem;">
+            👥 156 участников • 85 постов • 7 событий
+          </div>
+          <button class="btn btn-primary" style="width: 100%;">Подать заявку на вступление</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">🐧 Linux & AppImage Club</div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+            Тестирование десктопного мессенджера на Ubuntu, Debian, Arch и сборка кроссплатформенных пакетов.
+          </p>
+          <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 1rem;">
+            👥 28 участников • 9 постов • 1 событие
+          </div>
+          <button class="btn btn-primary" style="width: 100%;">Подать заявку на вступление</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: ARCHITECTURE & QUICKSTART -->
+    <div id="tab-architecture" class="tab-content">
+      <div class="card">
+        <h2 style="margin-bottom: 0.5rem; color: #fff;">📦 Архитектура проекта и инструкция по запуску</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.25rem;">
+          Проект полностью изолирован в Docker-контейнерах и собирается одной командой.
+        </p>
+
+        <h3 style="color: #60a5fa; margin-bottom: 0.5rem;">1. Быстрый запуск в Docker Compose</h3>
+        <p style="font-size: 0.9rem; color: #cbd5e1;">Из корня репозитория запустите команду для сборки двух контейнеров:</p>
+        
+        <div class="terminal">
+          <div class="terminal-header">
+            <span class="dot dot-r"></span>
+            <span class="dot dot-y"></span>
+            <span class="dot dot-g"></span>
+          </div>
+          <div class="comment"># Сборка и запуск бэкенда (Go) и фронтенда (Next.js)</div>
+          <div class="cmd">docker compose up --build</div>
+        </div>
+
+        <div style="margin: 1rem 0;">
+          <p>🌐 <strong>Фронтенд:</strong> <a href="http://localhost:3000" target="_blank" style="color: #60a5fa;">http://localhost:3000</a></p>
+          <p>🔌 <strong>API Бэкенда:</strong> <a href="http://localhost:8080" target="_blank" style="color: #60a5fa;">http://localhost:8080</a></p>
+        </div>
+
+        <h3 style="color: #60a5fa; margin-top: 1.5rem; margin-bottom: 0.5rem;">2. Тестовые учётные записи (Seed)</h3>
+        <table class="acc-table">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Пароль</th>
+              <th>Тип профиля</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>bob@demo.local</code></td>
+              <td><code>password123</code></td>
+              <td>Публичный</td>
+            </tr>
+            <tr>
+              <td><code>carol@demo.local</code></td>
+              <td><code>password123</code></td>
+              <td>Приватный (требует подтверждения подписки)</td>
+            </tr>
+            <tr>
+              <td><code>dave@demo.local</code></td>
+              <td><code>password123</code></td>
+              <td>Публичный</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 style="color: #60a5fa; margin-top: 1.5rem; margin-bottom: 0.5rem;">3. Десктоп-мессенджер (Electron / AppImage)</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <span class="dot dot-r"></span>
+            <span class="dot dot-y"></span>
+            <span class="dot dot-g"></span>
+          </div>
+          <div class="comment"># Запуск десктопного мессенджера</div>
+          <div class="cmd">cd desktop</div>
+          <div class="cmd">npm install</div>
+          <div class="cmd">npm start</div>
+          <div class="comment" style="margin-top: 0.5rem;"># Сборка установщиков:</div>
+          <div class="cmd">npm run dist:linux  <span class="comment"># AppImage для Linux</span></div>
+          <div class="cmd">npm run dist:win    <span class="comment"># .exe инсталлятор для Windows</span></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p><strong>Social Network</strong> • Кроссплатформенная социальная сеть</p>
+    <p style="margin-top: 0.4rem; color: #64748b;">
+      Разработано в рамках учебного проекта. Исходный код доступен на GitHub и GitLab.
+    </p>
+  </footer>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+      
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.add('active');
+
+      const btn = Array.from(document.querySelectorAll('.nav-btn')).find(b => 
+        b.getAttribute('onclick')?.includes(tabId)
+      );
+      if (btn) btn.classList.add('active');
+    }
+
+    function toggleLike(btn) {
+      const span = btn.querySelector('span');
+      let count = parseInt(span.innerText);
+      if (btn.classList.contains('active')) {
+        btn.classList.remove('active');
+        span.innerText = count - 1;
+      } else {
+        btn.classList.add('active');
+        span.innerText = count + 1;
+      }
+    }
+
+    function toggleComments(id) {
+      const el = document.getElementById(id);
+      if (el) el.style.display = (el.style.display === 'none' ? 'block' : 'none');
+    }
+
+    function createPost() {
+      const textEl = document.getElementById('new-post-text');
+      const privacyEl = document.getElementById('new-post-privacy');
+      const text = textEl.value.trim();
+      if (!text) return alert('Пожалуйста, введите текст поста!');
+
+      const container = document.getElementById('posts-container');
+      const privacyLabel = privacyEl.options[privacyEl.selectedIndex].text;
+      const privacyBadgeClass = privacyEl.value === 'public' ? 'badge-public' : (privacyEl.value === 'private' ? 'badge-private' : 'badge-almost');
+
+      const postCard = document.createElement('div');
+      postCard.className = 'card';
+      postCard.innerHTML = `
+        <div class="post-header">
+          <div class="avatar">B</div>
+          <div class="post-meta">
+            <h4>Bob Demo <span class="badge ${privacyBadgeClass}">${privacyLabel}</span></h4>
+            <span>Только что • Веб-версия</span>
+          </div>
+        </div>
+        <div class="post-content">
+          <p>${text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>
+        </div>
+        <div class="post-actions">
+          <button class="action-btn" onclick="toggleLike(this)">❤️ <span>0</span> Нравится</button>
+          <button class="action-btn">💬 0 Комментариев</button>
+        </div>
+      `;
+      container.prepend(postCard);
+      textEl.value = '';
+    }
+
+    function selectChat(name, letter, avatarClass) {
+      document.getElementById('chat-header-name').innerText = name;
+      const av = document.getElementById('chat-header-avatar');
+      av.innerText = letter;
+      av.className = 'avatar ' + avatarClass;
+      document.querySelectorAll('.chat-item').forEach(el => el.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const val = input.value.trim();
+      if (!val) return;
+
+      const area = document.getElementById('chat-messages');
+      const msg = document.createElement('div');
+      msg.className = 'msg msg-out';
+      msg.innerText = val;
+      area.appendChild(msg);
+      input.value = '';
+      area.scrollTop = area.scrollHeight;
+
+      // Simulated instant reply
+      setTimeout(() => {
+        const reply = document.createElement('div');
+        reply.className = 'msg msg-in';
+        reply.innerText = 'Сообщение принято! WebSocket хаб работает исправно. ✅';
+        area.appendChild(reply);
+        area.scrollTop = area.scrollHeight;
+      }, 700);
+    }
+  </script>
+</body>
+</html>

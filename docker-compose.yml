@@ -1,0 +1,36 @@
+# Two images, one for the backend (Go API + websocket + SQLite) and one for the
+# frontend (Next.js). Run everything with: docker compose up --build
+services:
+  backend:
+    build: ./backend
+    image: social-network-backend
+    container_name: social-network-backend
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: "8080"
+      FRONTEND_URL: "http://localhost:3000"
+      DB_PATH: "/app/data/social.db"
+      UPLOAD_DIR: "/app/uploads"
+    volumes:
+      - backend-data:/app/data
+      - backend-uploads:/app/uploads
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Address the browser uses to reach the backend (published host port).
+        NEXT_PUBLIC_API_URL: "http://localhost:8080"
+    image: social-network-frontend
+    container_name: social-network-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  backend-data:
+  backend-uploads:

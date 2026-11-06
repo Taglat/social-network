@@ -1,0 +1,32 @@
+# GitLab CI/CD Configuration for GitLab Pages
+# Автоматическая сборка и публикация статического сайта через GitLab Pages
+
+stages:
+  - deploy
+
+pages:
+  stage: deploy
+  image: node:20-alpine
+  script:
+    - echo "=== GitLab Pages Deployment ==="
+    - |
+      if [ -d "frontend" ] && [ -f "frontend/package.json" ]; then
+        echo "Building Next.js frontend export..."
+        cd frontend
+        npm ci --prefer-offline --no-audit || npm install --no-audit || true
+        export NEXT_OUTPUT_EXPORT=true
+        export PAGES_BASE_PATH="/$CI_PROJECT_NAME"
+        npm run build || echo "Fallback to pre-bundled public/ site"
+        cd ..
+        if [ -d "frontend/out" ]; then
+          echo "Updating public/ directory with fresh build..."
+          rm -rf public
+          mv frontend/out public
+        fi
+      fi
+    - echo "GitLab Pages website is ready in public/ directory."
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "social-network"

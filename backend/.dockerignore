@@ -1,0 +1,11 @@
+data/
+uploads/*
+!uploads/.gitkeep
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+server
+server.exe
+*.log
+.git

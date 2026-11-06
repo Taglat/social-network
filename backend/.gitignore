@@ -1,0 +1,15 @@
+# Build artifacts
+server.exe
+server
+*.log
+
+# Runtime data
+data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Uploaded images (keep the folder, ignore its contents)
+uploads/*
+!uploads/.gitkeep
